@@ -19,6 +19,7 @@ def main():
 	i = 0
 	n = int(input[0])
 	R_list = [int(elem) for elem in input[1].rstrip("\n").split(" ")]
+	R_list.sort()
 	m = int(input[2])
 	point_pair_list = []
 	for j in range (0,m):
