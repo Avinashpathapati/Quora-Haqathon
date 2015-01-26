@@ -3,16 +3,31 @@ import fileinput
 def isInsideOfCircle(R, x, y):
 	return (x ** 2 + y ** 2) <= (R ** 2)
 
+def getMinRadius(R_list, x, y):
+	"""binary search routine to find minimum circle with radius R which contains point """
+	lo = 0
+	hi = len(R_list)-1
+	while lo <= hi:
+		mid = lo + (hi-lo)/2
+		tryR = isInsideOfCircle(R_list[mid], x, y)
+		if tryR:
+			hi = mid - 1
+		else:
+			lo = mid + 1
+	return hi
+
+
+
 def countQs(R_list, point_pair_list):
 	counter = 0
 	for line in point_pair_list:
-		for r in R_list:
-			firstIn = isInsideOfCircle(r, line[0], line[1])
-			secondIn = isInsideOfCircle(r, line[2], line[3])
-			if (firstIn and not secondIn) or (not firstIn and secondIn):
-				counter +=1
+		#find minimum radius of circle which contains first point
+		first_r_min = getMinRadius(R_list, line[0], line[1])
+		#find minimum radius of circle which contains second pont		
+		second_r_min = getMinRadius(R_list, line[2], line[3])
+		#print "for line %s first min = %s second min = %s" % (line, first_r_min, second_r_min)
+		counter += abs(first_r_min - second_r_min)
 	return counter
-
 
 def main():
 	input = fileinput.input()
