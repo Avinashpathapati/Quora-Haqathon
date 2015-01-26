@@ -25,12 +25,6 @@ def main():
 		(x1, y1, x2, y2) = tuple([ int (elem) for elem in input[3+j].rstrip("\n").split(" ")])
 		point_pair_list.append((x1, y1, x2, y2))
 	print countQs(R_list, point_pair_list)
-	#print n
-	#print R_list
-	#print m
-	#print point_pair_list
-
-
 
 if __name__ == '__main__':
 	main()
