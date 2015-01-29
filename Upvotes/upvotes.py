@@ -38,12 +38,12 @@ class Node:
 																							 self.lastLen)
 
 def combine_nodes(leftChild, rightChild, type):
-	parent = Node()
 	if leftChild is None:
 		return rightChild
 	if rightChild is None:
 		return leftChild
-
+	
+	parent = Node()
 	parent.lo = leftChild.lo
 	parent.hi = rightChild.hi
 	parent.first = leftChild.first
@@ -73,35 +73,36 @@ def combine_nodes(leftChild, rightChild, type):
 class TournamentTree:
 	""" ... """	
 
-	def __initParents(self, left, right):
-		if left == 1:
-			return #its a root, already set
-		#to do: handle null children (padd)
-		for i in range(left, right, 2):
-			#set parents
-			leftChild = self.array[i]
-			rightChild = self.array[i+1]
-			
-			self.array[i // 2] = combine_nodes(leftChild, rightChild, self.type)
+	def __initParents(self):
+		left = self.offset
+		right = self.offset * 2
 
-		self.__initParents(left - (right-left) / 2, left)
-	
+		while (left > 0):
+			for i in range(left, right, 2):
+				#set parents
+				leftChild = self.array[i]
+				rightChild = self.array[i+1]
+				self.array[i // 2] = combine_nodes(leftChild, rightChild, self.type)
+			right = left
+			left = left / 2
 
 	def __init__(self, input, t):
 		self.offset = get2pot(len(input))
 		self.array = []
-		self.dataLen = len(input)
 		for i in range(len(input)):
 			self.array.append(Node(input[i], i))
 		arr_tmp = []
 		for i in range(0, self.offset):
-			arr_tmp.append(Node())
+			arr_tmp.append(None)
 		self.array = arr_tmp + self.array
 		self.array = self.array + [None] * (self.offset - len(input))
+		#print len(self.array)
 		self.type = t #true if non decreasing type, false if non increasing type
-		self.__initParents(len(self.array) - self.offset, len(self.array))
+		self.__initParents()
 	
 	def query(self,i,lo, hi):
+		if (i >= self.offset * 2 or i == 0):
+			print 'EEEEEEEEEEEJ ' + str(i)
 		node = self.array[i]
 		if node is None:
 			return None
@@ -123,15 +124,12 @@ def compute(tree1, tree2, n, k):
 		q2 = tree2.query_tree(i,i+k-1)
 		print (q1 - q2)
 
-def main():
-	input = fileinput.input()
-	(n, k) = (int(elem) for elem in input[0].rstrip().split(' '))
-	inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
-	tree1 = TournamentTree(inputArray, True)
-	tree2 = TournamentTree(inputArray, False)
-	compute(tree1, tree2, n, k)
+input = fileinput.input()
+(n, k) = (int(elem) for elem in input[0].rstrip().split(' '))
+inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
+tree1 = TournamentTree(inputArray, True)
+tree2 = TournamentTree(inputArray, False)
+compute(tree1, tree2, n, k)
 
 
-if __name__== "__main__":
-	main()
 
