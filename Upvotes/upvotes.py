@@ -1,3 +1,5 @@
+import fileinput
+
 def get2pot(n):
 	""" ... """
 	p = 1
@@ -101,10 +103,11 @@ class TournamentTree:
 	
 	def query(self,i,lo, hi):
 		node = self.array[i]
-		print "checking interval: %s %s with node interval %s %s" % (lo, hi, node.lo, node.hi)		
+		if node is None:
+			return None
 		if(lo <= node.lo and hi >= node.hi):
 			return node
-		elif(node.hi < lo or node.lo > hi):
+		elif(node.hi < lo or node.lo > hi): 
 			return None
 		else:
 			return combine_nodes(self.query(2*i, lo, hi), self.query(2*i+1, lo, hi), self.type)
@@ -113,25 +116,22 @@ class TournamentTree:
 		result_node = self.query(1,lo, hi)
 		return result_node.sum
 
-def compute(tree1, tree2, n, k, input):
+def compute(tree1, tree2, n, k):
 	iterations = n - k + 1
 	for i in range(iterations):
-		print input[i:i+k]
 		q1 = tree1.query_tree(i,i+k-1)
-		print ("*****************************")
 		q2 = tree2.query_tree(i,i+k-1)
-		print "non decreasing: %s, non increasing: %s" % (q1, q2)
+		print (q1 - q2)
+
+def main():
+	input = fileinput.input()
+	(n, k) = (int(elem) for elem in input[0].rstrip().split(' '))
+	inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
+	tree1 = TournamentTree(inputArray, True)
+	tree2 = TournamentTree(inputArray, False)
+	compute(tree1, tree2, n, k)
+
 
 if __name__== "__main__":
-	input = [1, 2, 3, 1, 1]
-	tree1 = TournamentTree(input, True)
-	tree2 = TournamentTree(input, False)
-	print "after init:"
-	for node in tree1.array:
-		print node
-	print "---------------"
-	for node in tree2.array:
-		print node
-	print "-----------------------------------------------"
-	compute(tree1, tree2, len(input), 3, input)
+	main()
 
