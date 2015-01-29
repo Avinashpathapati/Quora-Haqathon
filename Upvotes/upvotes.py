@@ -101,8 +101,6 @@ class TournamentTree:
 		self.__initParents()
 	
 	def query(self,i,lo, hi):
-		if (i >= self.offset * 2 or i == 0):
-			print 'EEEEEEEEEEEJ ' + str(i)
 		node = self.array[i]
 		if node is None:
 			return None
