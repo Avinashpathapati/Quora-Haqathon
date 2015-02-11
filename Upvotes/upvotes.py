@@ -116,12 +116,19 @@ def compute(tree1, tree2, n, k):
 		q2 = tree2.query_tree(i,i+k-1)
 		print (q1 - q2)
 
-input = fileinput.input()
-(n, k) = (int(elem) for elem in input[0].rstrip().split(' '))
-inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
-tree1 = TournamentTree(inputArray, True)
-tree2 = TournamentTree(inputArray, False)
-compute(tree1, tree2, n, k)
+
+def main():
+	input = fileinput.input()
+	(n, k) = (int(elem) for elem in input[0].rstrip().split(' '))
+	inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
+	tree1 = TournamentTree(inputArray, True)
+	tree2 = TournamentTree(inputArray, False)
+	compute(tree1, tree2, n, k)
+
+if __name__ == '__main__':
+	main()
+
+
 
 
 
