@@ -29,8 +29,6 @@ class Node:
 																							 self.last,
 																							 self.firstLen,
 																							 self.lastLen)
-
-
 class TournamentTree:
 	""" ... """	
 	def __init__(self, input, t):
@@ -123,8 +121,8 @@ def main():
 	inputArray = [int(elem) for elem in input[1].rstrip().split(' ')]
 	tree1 = TournamentTree(inputArray, True)
 	tree2 = TournamentTree(inputArray, False)
-	compute(tree1, tree2, n, k)
-
+	compute(tree1, tree2, n, k
+)
 if __name__ == '__main__':
 	main()
 
